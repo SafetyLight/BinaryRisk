@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Risk</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            flex-direction: row;
+            margin:0;
+        }
+        h1 {
+            background-color: #333;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0;
+            position: relative; /* For absolute positioning of the button */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .reset-button {
+            position: absolute;
+            right: 20px;
+            padding: 8px 16px;
+            background-color: #666;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .reset-button:hover {
+            background-color: #888;
+        }        
+        .content-container {
+            align-items: center;
+            margin: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        .content {
+            max-width: 600px;
+            flex-grow: 1;
+        }
+        .instructions {
+            font-size:larger;
+            margin-bottom: 2em;
+        }
+        .question {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        .question-text {
+            flex: 1;
+        }
+        .question-options {
+            min-width: 120px;  
+            text-align: right;
+        }
+        .question-options label {
+            margin-left: 8px;
+        }        
+        .result-container {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            margin-left: 5em;
+        }
+        #result {
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            font-size: 1.2em;
+            border: 1px solid #ddd;
+            padding: 20px;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .result-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .result-item .label {
+            margin-right: 20px;
+        }   
+        .value-box {
+            width: 100px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .low { background-color: limegreen; color:white;}
+        .medium { background-color: orange; color:white;}
+        .high { background-color: red; color:white;}
+    </style>
+</head>
+<body>
+    <h1>
+        Binary Risk Analysis
+        <button class="reset-button" onclick="resetState()">Reset</button>    
+    </h1>
+    
+    <div class="content-container">
+        <div class="content">
+            <p class="instructions">Answer these ten questions to assess a risk:</p>
+            <div id="questions">
+                <!-- Render questions dynamically with JavaScript -->
+            </div>
+        </div>
+    
+        <div class="result-container">
+            <div id="result">
+                <div class="result-item">
+                    <span class="label">Risk Level</span>
+                    <span class="value-box" id="risk-value">TBD</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Likelihood</span>
+                    <span class="value-box" id="likelihood-value">TBD</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Impact</span>
+                    <span class="value-box" id="impact-value">TBD</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const questions = [
+            "Can the attack by completed with common skills?",
+            "Can the attack be completed without significant resources?",
+            "Is the asset undefended?",
+            "Are there known weaknesses in the current defences?",
+            "Is the vulnerability in the asset always present?",
+            "Can the attack be performed with out meeting preconditions?",
+            "Will there be consequences from internal sources?",
+            "Will their be consequences from external sources?",
+            "Does the asset have or create significant business value?",
+            "Will the repair or replacement costs be significant?"
+        ];
+    
+        const questionsContainer = document.getElementById('questions');
+    
+        const updateVisuals = {
+            "Low": "low",
+            "Medium": "medium",
+            "High": "high"
+        };
+    
+        // Safer URL handling. Avoids a security exception from FireFox.
+        function getInitialState() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const state = urlParams.get('state');
+                if (state && /^[01]{10}$/.test(state)) {
+                    return state;
+                }
+            } catch (e) {
+                console.warn('Error parsing URL parameters:', e);
+            }
+            return '0000000000';
+        }
+    
+        const initialState = getInitialState();
+    
+        function initializeQuestions() {
+            questionsContainer.innerHTML = ''; // Clear existing content
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                const isCheckedYes = initialState[index] === '1';
+                questionDiv.innerHTML = `
+                    <span class="question-text">${question}</span>
+                    <div class="question-options">
+                        <input type="radio" name="question${index}" id="yes${index}" value="1" ${isCheckedYes ? 'checked' : ''} onchange="updateState()">
+                        <label for="yes${index}">Yes</label>
+                        <input type="radio" name="question${index}" id="no${index}" value="0" ${!isCheckedYes ? 'checked' : ''} onchange="updateState()">
+                        <label for="no${index}">No</label>
+                    </div>
+                `;
+                questionsContainer.appendChild(questionDiv);
+            });
+        }
+    
+        function calculateRisk(binaryString, likelihoodScore, impactScore) {
+            let calculatedScore;
+    
+            const riskSum = likelihoodScore + impactScore;
+            switch (riskSum) {
+                case 2:
+                case 3:
+                    calculatedScore = Math.pow(2, 0);
+                    break;
+                case 4:
+                case 5:
+                    calculatedScore = Math.pow(2, 1);
+                    break;
+                case 6:
+                case 8:
+                    calculatedScore = Math.pow(2, 2);
+                    break;
+                default:
+                    calculatedScore = 0;
+            }
+            return calculatedScore;
+        }
+    
+        function calculateLikelihood(binaryString) {
+            const CALCSTART = 0;
+            const CALCSTOP = 5;
+            const CALCBLOCKSIZE = 2;
+            return chunkScore(binaryString, CALCSTART, CALCSTOP, CALCBLOCKSIZE);
+        }
+    
+        function calculateImpact(binaryString) {
+            const CALCSTART = 6;
+            const CALCSTOP = 9;
+            const CALCBLOCKSIZE = 2;
+            return chunkScore(binaryString, CALCSTART, CALCSTOP, CALCBLOCKSIZE);
+        }
+    
+        function chunkScore(binaryString, startIndex, stopIndex, blockSize) {
+            const BINARYMASK = '0000000011';
+            const BINARYMASK_BLOCK = '0000000001';
+            const INTMASK = parseInt(BINARYMASK, 2);
+            const INTMASK_BLOCK = parseInt(BINARYMASK_BLOCK, 2);
+            let scoreAccumulator = 0;
+    
+            for (let shifter = startIndex; shifter <= stopIndex; shifter += blockSize) {
+                let blockScore = (binaryString >>> shifter) & INTMASK;
+                let blockScorePartA = blockScore & INTMASK_BLOCK;
+                let blockScorePartB = (blockScore >>> 1) & INTMASK_BLOCK;
+                let calculatedScore = Math.pow(2, blockScorePartA + blockScorePartB);
+    
+                switch (scoreAccumulator) {
+                    case 0:
+                    case 2:
+                        scoreAccumulator = calculatedScore;
+                        break;
+                    case 1:
+                        scoreAccumulator = (calculatedScore === 4 ? 2 : 1);
+                        break;
+                    case 4:
+                        scoreAccumulator = (calculatedScore === 1 ? 2 : 4);
+                        break;
+                }
+            }
+    
+            return scoreAccumulator;
+        }
+        
+        function updateState() {
+            let state = '';
+            for (let index = questions.length - 1; index >= 0; index--) {
+                const answer = document.querySelector(`input[name="question${index}"]:checked`);
+                state += answer && answer.value === '1' ? '1' : '0';
+            }
+    
+            try {
+                updateUrl(state);
+            } catch (e) {
+                console.warn('Error updating URL:', e);
+            }
+    
+            const stateInt = parseInt(state, 2);
+            const likelihoodScore = calculateLikelihood(stateInt);
+            const impactScore = calculateImpact(stateInt);
+            const riskScore = calculateRisk(stateInt, likelihoodScore, impactScore);        
+    
+            updateResult("risk-value", getCategory(riskScore));
+            updateResult("likelihood-value", getCategory(likelihoodScore));
+            updateResult("impact-value", getCategory(impactScore));
+        }
+    
+        function getCategory(score) {
+            const WORDS = ['Low', 'Medium', 'High'];
+            const index = (Math.log(score)) / (Math.log(2));
+            return WORDS[index] || WORDS[0];
+        }
+    
+        function updateResult(elementId, level) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = level;
+                element.className = `value-box ${updateVisuals[level]}`;
+            }
+        }
+    
+        function updateUrl(state) {
+            try {
+                const newUrl = new URL(window.location.href);
+                newUrl.searchParams.set('state', state);
+                window.history.replaceState({}, '', newUrl);
+            } catch (e) {
+                console.warn('Error updating URL:', e);
+            }
+        }
+    
+        function resetState() {
+            const defaultState = '0000000000';
+            try {
+                updateUrl(defaultState);
+                initializeQuestions();
+                updateState();
+            } catch (e) {
+                console.warn('Error resetting state:', e);
+                window.location.reload();
+            }
+        }
+    
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeQuestions();
+            updateState();
+        });
+    </script>
+</body>
+</html>
