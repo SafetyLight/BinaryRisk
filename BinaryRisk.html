@@ -226,7 +226,7 @@
 
         const questionsContainer = document.getElementById('questions');
 
-        const updateVisuals = {
+        const riskLevelColors = {
             "Low": "low",
             "Medium": "medium",
             "High": "high"
@@ -241,7 +241,7 @@
                     return state;
                 }
             } catch (e) {
-                console.warn('Error parsing URL parameters:', e);
+                console.error('Error parsing URL parameters:', e);
             }
             return '0000000000';
         }
@@ -345,7 +345,7 @@
             try {
                 updateUrl(state);
             } catch (e) {
-                console.warn('Error updating URL:', e);
+                console.error('Error updating URL:', e);
             }
 
             updateResults(state);
@@ -373,7 +373,7 @@
             const element = document.getElementById(elementId);
             if (element) {
                 element.textContent = level;
-                element.className = `value-box ${updateVisuals[level]}`;
+                element.className = `value-box ${riskLevelColors[level]}`;
             }
         }
 
@@ -384,7 +384,7 @@
                 window.history.replaceState({}, '', newUrl);
                 let newState = new URL(location.href).searchParams.get('state')
             } catch (e) {
-                console.warn('Error updating URL:', e);
+                console.error('Error updating URL:', e);
             }
         }
 
@@ -405,7 +405,7 @@
                     console.error("Failed to copy URL:", error);
                 });
             } catch (e) {
-                console.warn("Clipboard API not supported:", e);
+                console.error("Clipboard API not supported:", e);
             }
         }
 
