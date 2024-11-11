@@ -179,8 +179,10 @@
     <h1>
         Binary Risk Analysis
         <div class="button-container">
-            <button class="header-button reset-button" onclick="resetState()">Reset</button>
-            <button class="header-button clipboard-button" onclick="copyUrlToClipboard()">Clipboard</button>
+            <button class="header-button reset-button" onclick="resetState()"
+                aria-label="Clear all answers">Reset</button>
+            <button class="header-button clipboard-button" onclick="copyUrlToClipboard()"
+                aria-label="Copy current URL to clipboard">Clipboard</button>
         </div>
     </h1>
 
@@ -192,20 +194,18 @@
             </div>
         </div>
 
-        <div class="result-container">
-            <div id="result">
-                <div class="result-item">
-                    <span class="label">Risk Level</span>
-                    <span class="value-box" id="risk-value">TBD</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">Likelihood</span>
-                    <span class="value-box" id="likelihood-value">TBD</span>
-                </div>
-                <div class="result-item">
-                    <span class="label">Impact</span>
-                    <span class="value-box" id="impact-value">TBD</span>
-                </div>
+        <div id="result" class="result-container">
+            <div class="result-item">
+                <span class="label" aria-label="Risk level of the assessment">Risk Level</span>
+                <span class="value-box" id="risk-value" aria-live="polite">TBD</span>
+            </div>
+            <div class="result-item">
+                <span class="label" aria-label="Likelihood score of the assessment">Likelihood</span>
+                <span class="value-box" id="likelihood-value" aria-live="polite">TBD</span>
+            </div>
+            <div class="result-item">
+                <span class="label" aria-label="Impact score of the assessment">Impact</span>
+                <span class="value-box" id="impact-value" aria-live="polite">TBD</span>
             </div>
         </div>
     </div>
@@ -255,11 +255,13 @@
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question';
                 questionDiv.innerHTML = `
-                    <span class="question-text">${question}</span>
+                    <span class="question-text" id="question-text-${index}">${question}</span>
                     <div class="question-options">
-                        <input type="radio" name="question${index}" id="yes${index}" value="1" ${isCheckedYes ? 'checked' : ''} onchange="updateState()">
+                        <input type="radio" name="question${index}" id="yes${index}" value="1" ${isCheckedYes ? 'checked' : ''} 
+                            aria-labelledby="question-text-${index}" onchange="updateState()">
                         <label for="yes${index}">Yes</label>
-                        <input type="radio" name="question${index}" id="no${index}" value="0" ${!isCheckedYes ? 'checked' : ''} onchange="updateState()">
+                        <input type="radio" name="question${index}" id="no${index}" value="0" ${!isCheckedYes ? 'checked' : ''} 
+                            aria-labelledby="question-text-${index}" onchange="updateState()">
                         <label for="no${index}">No</label>
                     </div>
                 `;
