@@ -44,7 +44,6 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            /*flex-direction: row;*/
             margin: 0;
         }
 
@@ -71,7 +70,6 @@
 
         .header-button {
             padding: 4px 10px;
-            /* Compact padding */
             background-color: #444;
             color: white;
             border: none;
@@ -214,14 +212,14 @@
 
     <script>
         const questions = [
-            "Can the attack by completed with common skills?",
+            "Can the attack be completed with common skills?",
             "Can the attack be completed without significant resources?",
             "Is the asset undefended?",
-            "Are there known weaknesses in the current defences?",
+            "Are there known weaknesses in the current defenses?",
             "Is the vulnerability in the asset always present?",
-            "Can the attack be performed with out meeting preconditions?",
+            "Can the attack be performed without meeting preconditions?",
             "Will there be consequences from internal sources?",
-            "Will their be consequences from external sources?",
+            "Will there be consequences from external sources?",
             "Does the asset have or create significant business value?",
             "Will the repair or replacement costs be significant?"
         ];
@@ -362,7 +360,7 @@
 
             updateResult("risk-value", getCategory(riskScore));
             updateResult("likelihood-value", getCategory(likelihoodScore));
-            updateResult("impact-value", getCategory(impactScore));            
+            updateResult("impact-value", getCategory(impactScore));
         }
 
         function getCategory(score) {
