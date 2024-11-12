@@ -196,7 +196,7 @@
 
         <div id="result" class="result-container">
             <div class="result-item">
-                <span class="label" aria-label="Risk level of the assessment">Risk Level</span>
+                <span class="label" aria-label="Risk level of the assessment">Risk</span>
                 <span class="value-box" id="risk-value" aria-live="polite">TBD</span>
             </div>
             <div class="result-item">
@@ -257,12 +257,12 @@
                 questionDiv.innerHTML = `
                     <span class="question-text" id="question-text-${index}">${question}</span>
                     <div class="question-options">
+                        <label for="yes${index}">Yes</label>
                         <input type="radio" name="question${index}" id="yes${index}" value="1" ${isCheckedYes ? 'checked' : ''} 
                             aria-labelledby="question-text-${index}" onchange="updateState()">
-                        <label for="yes${index}">Yes</label>
+                        <label for="no${index}">No</label>
                         <input type="radio" name="question${index}" id="no${index}" value="0" ${!isCheckedYes ? 'checked' : ''} 
                             aria-labelledby="question-text-${index}" onchange="updateState()">
-                        <label for="no${index}">No</label>
                     </div>
                 `;
                 questionsContainer.appendChild(questionDiv);
