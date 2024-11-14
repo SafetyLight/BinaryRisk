@@ -4,17 +4,17 @@ A lightweight, modernized tool for assessing information security risk levels fo
 
 ## About the Application
 
-This web application provides a streamlined implementation of Binary Risk Analysis, a process for evaluating information security risk. The original app was developed by Ben Sapiro in 2011. This updated version preserves Ben's documented methodology while using simpler code and rendering correctly in modern browsers
+This web application helps with Binary Risk Analysis, a process for evaluating information security risk. The original app was developed by Ben Sapiro in 2011. This updated version preserves Ben's documented methodology while using simpler code and rendering correctly in modern browsers.
 
 - **Adheres to Binary Risk Analysis methodology** as documented by Ben Sapiro.
 - **Works in modern browsers**
-- **Has shareable URLs** for saving and revisiting assessment results.
+- **Has stateful URLs** for saving and revisiting assessment results.
 
 Additionally, this app is implemented in a single, framework-free static HTML file. This makes it easy to understand, modify, and deploy.
 
 ## About Binary Risk Analysis
 
-Binary Risk Analysis (BinRA) is designed to structure subjective conversations about risk levels. Its simplicity allows it to be applied efficiently across all items in a risk register, enhancing communication between security and business teams.
+Binary Risk Analysis (BinRA) is designed to structure subjective conversations about risk levels. Its simplicity allows for processing all items in a risk register in a reasonable amount of time, and it also enhances communication between security and business teams.
 
 The original description of Binary Risk Analysis can be found [here](https://binary.protect.io/).
 
@@ -39,9 +39,13 @@ You should have received a copy of the GNU General Public License along with thi
 
 ## Accessibility
 
-This app includes basic ARIA tags to support accessibility. Contributions to improve ARIA support are welcome, especially from those with more experience in accessible design.
+This app includes basic ARIA tags to support accessibility. Contributions to improve accessibility are welcome, especially from those with more experience in accessible design.
 
 ## Getting Started
+
+The Binary Risk v2 app is available served directly from [GitHub](https://safetylight.github.io/BinaryRisk/BinaryRisk.html).
+
+Alternatively, you can make your own copy to modify and host wherever you like:
 
 1. Clone the repository:
    ```bash
