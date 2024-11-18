@@ -179,7 +179,7 @@
             border-radius: 8px;
             line-height: 1.6;
             border: 2px solid #444;
-            border-radius: 10px; 
+            border-radius: 10px;
             padding: 15px 15px 10px;
             margin: 20px auto;
             max-width: 600px;
@@ -198,7 +198,19 @@
 
         .about-box p:last-child {
             margin-bottom: 0;
-        }               
+        }
+
+        .about-box a {
+            text-decoration: none;
+            color: #0066cc;
+            font-weight: bold;
+        }
+
+        .about-box a:hover,
+        .about-box a:focus {
+            text-decoration: underline;
+            color: #003399;
+        }
     </style>
 </head>
 
@@ -206,12 +218,10 @@
     <h1>
         Binary Risk Analysis
         <div class="button-container">
-            <button class="header-button" onclick="resetState()"
-                aria-label="Clear all answers">Reset</button>
+            <button class="header-button" onclick="resetState()" aria-label="Clear all answers">Reset</button>
             <button class="header-button" onclick="copyUrlToClipboard()"
                 aria-label="Copy current URL to clipboard">Clipboard</button>
-            <button class="header-button" onclick="toggleAbout()" 
-                aria-label="About">About</button>
+            <button class="header-button" onclick="toggleAbout()" aria-label="About">About</button>
         </div>
     </h1>
 
@@ -222,16 +232,16 @@
             Learn more at <a href="https://binary.protect.io" target="_blank">binary.protect.io</a>.
         </p>
         <p>
-            This application is closely based on <a href="https://binary.protect.io/app/index.html" 
-            target="_blank">the original</a> written by Ben Sapiro in 2011. It updates the code to 
+            This application is closely based on <a href="https://binary.protect.io/app/index.html" target="_blank">the
+                original</a> written by Ben Sapiro in 2011. It updates the code to
             modern HTML and allows preserving an assessment by saving the URL.
         </p>
         <p>
-            The methodology is licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/" 
-            target="_blank">Creative Commons BY-SA 3.0</a>, and the application is released under the
+            The methodology is licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/"
+                target="_blank">Creative Commons BY-SA 3.0</a>, and the application is released under the
             <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">GNU General Public
-            License v3</a>. The source code is on <a href="https://github.com/SafetyLight/BinaryRisk" 
-            target="_blank">GitHub</a>.            
+                License v3</a>. The source code is on <a href="https://github.com/SafetyLight/BinaryRisk"
+                target="_blank">GitHub</a>.
         </p>
         <p>
             Copyright © 2024 by Brian Myers<br>
